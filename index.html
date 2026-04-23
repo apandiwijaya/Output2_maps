@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Area-based Conservation & Connectivity Map</title>
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<style>
+body { margin:0; font-family: Arial, sans-serif; }
+#map { height: 100vh; }
+
+/* Panel kiri */
+#info {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 320px;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  z-index: 1000;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+h2 { margin-top: 0; }
+.legend {
+  background: white;
+  padding: 10px;
+  line-height: 18px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="map"></div>
+
+<!-- Panel Info -->
+<div id="info">
+  <h2>Conservation & Connectivity Mapping</h2>
+  <p><b>Maps of area-based conservation gaps, transboundary connectivity, integrated landscape management and commodities.</b></p>
+
+  <h3>Activity 2.1</h3>
+  <p>Identify spatial data requirements, compile datasets, and coordinate geospatial analysis across outputs.</p>
+
+  <h3>Activity 2.2</h3>
+  <p>Define indicators for evaluating conservation gaps and ecological connectivity.</p>
+
+  <h3>Activity 2.3</h3>
+  <p>Map ecological corridors connecting forest ecosystems across boundaries.</p>
+
+  <hr>
+  <b>Legend:</b><br>
+  <span style="color:green;">■</span> Forest<br>
+  <span style="color:red;">■</span> Gap Areas<br>
+  <span style="color:blue;">■</span> Connectivity<br>
+</div>
+
+<script>
+// Base map
+var map = L.map('map').setView([-2, 118], 5);
+
+// Basemap
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap'
+}).addTo(map);
+
+// =======================
+// CONTOH LAYER (GANTI DENGAN DATA KAMU)
+// =======================
+
+// Gap layer
+var gapLayer = L.geoJSON(null, {
+  style: { color: "red", weight: 2 }
+});
+
+// Connectivity layer
+var connectLayer = L.geoJSON(null, {
+  style: { color: "blue", weight: 3 }
+});
+
+// Forest layer
+var forestLayer = L.geoJSON(null, {
+  style: { color: "green", weight: 1 }
+});
+
+// Tambahkan ke map
+gapLayer.addTo(map);
+connectLayer.addTo(map);
+forestLayer.addTo(map);
+
+// =======================
+// LOAD GEOJSON (GANTI FILE NANTI)
+// =======================
+
+// Contoh:
+// fetch('data/gaps.geojson')
+//   .then(res => res.json())
+//   .then(data => gapLayer.addData(data));
+
+// =======================
+// Layer Control
+// =======================
+var overlayMaps = {
+  "Conservation Gaps": gapLayer,
+  "Connectivity": connectLayer,
+  "Forest": forestLayer
+};
+
+L.control.layers(null, overlayMaps).addTo(map);
+
+</script>
+
+</body>
+</html>
